@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_dialog"
+    android:layout_width="200dp"
+    android:layout_height="100dp"
+    android:layout_margin="6dp"
+    android:foreground="?attr/selectableItemBackground"
+    cardview:cardBackgroundColor="?attr/bottomTextColor"
+    cardview:cardCornerRadius="8dp"
+    cardview:cardElevation="4dp"
+    cardview:cardPreventCornerOverlap="true"
+    cardview:cardUseCompatPadding="true" >
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="4dp"
+            android:textSize="18sp"
+            android:text="@string/loading_more_upload"
+            android:textColor="?attr/text_color_write" />
+
+        <com.wx.seeworld.loading.MonIndicator
+            android:id="@+id/loading_monindicator_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/bottomTextColor"
+            cardview:circleRadius="10dp"
+            cardview:cycle="3000" />
+        
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

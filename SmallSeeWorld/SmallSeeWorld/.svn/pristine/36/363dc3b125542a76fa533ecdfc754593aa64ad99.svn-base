@@ -1,0 +1,90 @@
+package com.wx.seeworld.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.wx.seeworld.R;
+import com.wx.seeworld.Bean.VideoDemo;
+import com.wx.seeworld.CacheResource.ImageLoaderJar;
+import com.wx.seeworld.View.CircleImageView;
+
+public class RecyclerVideoAdapder extends RecyclerView.Adapter<ViewHolder>{
+	
+	private List<VideoDemo> videoLists=new ArrayList<VideoDemo>();
+	private LayoutInflater mInflater;
+	
+	public RecyclerVideoAdapder(Context context) {
+		mInflater=LayoutInflater.from(context);
+	}
+	
+	//单击监听
+	private OnItemVideoClickListener mItemVideoClickListener;
+	public interface OnItemVideoClickListener {
+		void onItemClick(View view, int position);
+	}
+	public void setItemVideoClickListener(
+			OnItemVideoClickListener mItemVideoClickListener) {
+		this.mItemVideoClickListener = mItemVideoClickListener;
+	}
+	
+
+	@Override
+	public int getItemCount() {
+		return videoLists.size();
+	}
+
+	@Override
+	public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+		((VideoFooterHolder)viewHolder).tvTitle.setText(videoLists.get(position).getCaption());
+		((VideoFooterHolder)viewHolder).tvAutherName.setText("       "+videoLists.get(position).getScreen_name());
+		ImageLoaderJar.getImgFromNetCircle(videoLists.get(position).getAvatar(),((VideoFooterHolder)viewHolder).ivAutherPicture);
+		ImageLoaderJar.getImgFromNet(videoLists.get(position).getCover_pic(),((VideoFooterHolder)viewHolder).ivPicture);
+		
+		viewHolder.itemView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mItemVideoClickListener.onItemClick(v, position);
+			}
+		});
+	}
+
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
+		View view=mInflater.inflate(R.layout.item_video, viewGroup, false);
+		VideoFooterHolder viewHolder=new VideoFooterHolder(view);
+		return viewHolder;
+	}
+	
+	static class VideoFooterHolder extends ViewHolder{
+		private TextView tvTitle;
+		private TextView tvAutherName;
+		private ImageView ivPicture;
+		private ImageView ivPlayer;
+		private CircleImageView ivAutherPicture;
+
+		public VideoFooterHolder(View view) {
+			super(view);
+			tvTitle = (TextView) view.findViewById(R.id.tv_video_title);
+			tvAutherName = (TextView) view.findViewById(R.id.tv_video_autherName);
+			ivPicture = (ImageView) view.findViewById(R.id.iv_video_picture);
+			ivPlayer = (ImageView) view.findViewById(R.id.iv_video_player);
+			ivAutherPicture = (CircleImageView) view.findViewById(R.id.iv_video_autherpicture);
+		}
+	}
+	
+	public void addData(List<VideoDemo> videoLists){
+		this.videoLists.addAll(0,videoLists);
+		notifyItemRangeChanged(0, videoLists.size()-1);
+	}
+
+}

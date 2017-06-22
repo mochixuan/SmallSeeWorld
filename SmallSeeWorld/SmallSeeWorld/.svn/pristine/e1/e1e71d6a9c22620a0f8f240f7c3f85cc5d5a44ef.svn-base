@@ -1,0 +1,42 @@
+package com.wx.seeworld.Tools;
+
+import java.io.IOException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import android.os.AsyncTask;
+
+public class JsoupMessage {
+
+	public void getVideoData() {
+		final String html = "http://www.meipai.com/";
+		new AsyncTaskDealt().execute(html);
+	}
+	
+	class AsyncTaskDealt extends AsyncTask<String , Void, Document>{
+
+		@Override
+		protected Document doInBackground(String... params) {
+			String html=params[0];
+			try {
+				Document document = Jsoup.connect(html).timeout(7000) .data("query", "Java")
+						  .userAgent("Mozilla")	//证明是电脑
+						  .cookie("auth", "token").get();
+				return document;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		
+		@Override
+		protected void onPostExecute(Document document) {
+			super.onPostExecute(document);
+			String imgUrl = document.getElementById("detailVideo").attr("data-video");
+			System.out.println(imgUrl);
+		}
+		
+	}
+
+}

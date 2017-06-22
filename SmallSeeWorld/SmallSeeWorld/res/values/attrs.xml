@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="theme">
+        <attr name="mainTextColor" format="reference|color" />
+        <attr name="mainBackgroundColor" format="reference|color" />
+        <attr name="TopTextColor" format="reference|color" />
+    </declare-styleable>
+    
+    <declare-styleable name="bottom">
+        <attr name="topIndicator" format="reference|color" />
+        <attr name="bottomDrawablenews" format="reference" />
+        <attr name="bottomDrawablevideo" format="reference" />
+        <attr name="bottomDrawabletopic" format="reference" />
+        <attr name="bottomDrawableuser" format="reference" />
+        <attr name="bottomTextColor" format="reference|color" />
+        <attr name="bottomTextColordefault" format="reference|color" />
+    </declare-styleable>
+    
+    <declare-styleable name="maintext">
+        <attr name="cardbackground" format="reference|color" />
+        <attr name="cardTitleTextColor" format="reference|color" />
+        <attr name="cardTextBottonColor" format="reference|color" />
+        <attr name="menu_bg" format="reference" />
+        <attr name="loading_bg" format="reference|color" />
+        <attr name="loading_progress" format="reference|color" />
+        <attr name="news_bg" format="reference|color" />
+        <attr name="webview_mask" format="reference|color" />
+        <attr name="image_mask" format="reference|color" />
+        <attr name="cardvideobackground" format="reference|color" />
+         <attr name="cardtopicbackground" format="reference|color" />
+    </declare-styleable>
+    
+    <declare-styleable name="monindicator">
+        <attr name="circleRadius" format="dimension" />
+        <attr name="circleSpacing" format="dimension" />
+        <attr name="cycle" format="integer" />
+    </declare-styleable>
+    
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+    
+    <declare-styleable name="usertheme">
+        <attr name="textcolorname" format="reference|color"/>
+        <attr name="user_message" format="reference"/>
+        <attr name="night_mode_image" format="reference"/>
+        <attr name="night_mode_button" format="reference"/>
+        <attr name="text_color_write" format="reference|color"/>
+        <attr name="user_bg" format="reference|color"/>
+        <attr name="user_bg1" format="reference|color"/>
+        <attr name="text_attantion" format="reference|color"/>
+        <attr name="topic_detail_bg" format="reference"/>
+        <attr name="topic_submit_img" format="reference"/>
+        <attr name="topic_details_topbg" format="reference|color"/>
+        <attr name="second_background" format="reference|color"/>
+    </declare-styleable>
+
+</resources>

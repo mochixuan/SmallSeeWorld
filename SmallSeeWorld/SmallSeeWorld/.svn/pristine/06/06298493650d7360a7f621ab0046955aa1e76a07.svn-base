@@ -1,0 +1,51 @@
+package com.wx.seeworld.Tools;
+
+import com.wx.seeworld.NetYINews.NewsJsonTools.NewsJsonTools;
+
+
+public class TitleTools {
+
+	public static String[] getTitle(){
+		String[] titles = new String[] { "头条", "原创", "NBA", "娱乐",
+				"体育","手机","互联","科技", "旅游", "财经", "美女", "教训" };
+		return titles;
+	}
+	
+	public static String getmCid(String title){
+		String mCid=null;
+		switch (title) {
+		case "头条":
+			mCid=NewsJsonTools.HEADLINES;
+			break;
+		case "原创":
+			mCid=NewsJsonTools.ORIGNAL;
+			break;
+		case "NBA":
+			mCid=NewsJsonTools.NBA;
+			break;
+		case "娱乐":
+			mCid=NewsJsonTools.ENTERTAINMENT;
+			break;
+		case "体育":
+			mCid=NewsJsonTools.SPORT;
+			break;
+		case "手机":
+			mCid=NewsJsonTools.PHONE;
+			break;
+		case "互联":
+			mCid=NewsJsonTools.MOBILEINTERNET;
+			break;
+		case "科技":
+			mCid=NewsJsonTools.SCIENCETECHNOLOGY;
+			break;
+		case "旅游":
+			mCid=NewsJsonTools.TROMIST;
+			break;
+		case "财经":
+			mCid=NewsJsonTools.FINANCE;
+			break;
+		}
+		return mCid;
+	}
+	
+}

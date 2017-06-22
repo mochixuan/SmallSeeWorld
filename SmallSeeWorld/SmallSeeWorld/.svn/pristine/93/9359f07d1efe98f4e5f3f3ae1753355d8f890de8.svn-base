@@ -1,0 +1,149 @@
+package com.wx.seeworld.Fragment;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.example.gridviewa.DragGridView;
+import com.flyco.tablayout.SlidingTabLayout;
+import com.wx.seeworld.R;
+import com.wx.seeworld.Activity.MainActivity;
+import com.wx.seeworld.FragemntNews.FragementMainHots;
+import com.wx.seeworld.Tools.GridViewTools;
+import com.wx.seeworld.Tools.GridViewTools.RefreshTopTitle;
+import com.wx.seeworld.Utils.DisPlayUtils;
+import com.wx.seeworld.dao.Titledao;
+
+public class FragmentNews extends Fragment{
+
+	private String[] titles = new String[] { "热点", "赣州", "社会", "订阅","娱乐", "科技", "汽车", "体育", "财经", "美女" };
+	private FragmentManager fragmentManager;
+	private ImageView ivAddChannel;
+	private SlidingTabLayout slidingTabLayout;
+	private int currentTab=0;
+	private String querySelected;
+	
+	public FragmentNews(FragmentManager fragmentManager,String querySelected) {
+		this.fragmentManager = fragmentManager;
+		this.querySelected=querySelected;
+	}
+	
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_news, container, false);
+		initView(view);
+		initViewPop();
+		return view;
+	}
+
+	private void initView(View view) {
+		
+		slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.flyco_layout);
+		viewPager = (ViewPager) view.findViewById(R.id.view_pager_fly);
+		ivAddChannel = (ImageView) view.findViewById(R.id.iv_add_channel);
+		List<Fragment> fragments = new ArrayList<Fragment>();
+		initHashMap();
+		
+		for (int i = 0; i < titles.length; i++) {
+			if(Titledao.querySelectedString(getActivity(), "热点")==i){
+				Fragment fragment=new FragementMainHots();
+				Bundle bundle = new Bundle();
+				bundle.putString("text", titles[i]);
+				fragment.setArguments(bundle);
+				fragments.add(fragment);
+			}else{
+				Fragment fragment = new MyFragment();
+				Bundle bundle = new Bundle();
+				bundle.putString("text", titles[i]);
+				fragment.setArguments(bundle);
+				fragments.add(fragment);
+			}
+			
+		}
+		tabFragmentAdapter = new TabFragmentAdapter(fragments, titles,fragmentManager, getActivity());
+		viewPager.setAdapter(tabFragmentAdapter);
+		slidingTabLayout.setViewPager(viewPager);
+		
+		if(querySelected == null){
+			slidingTabLayout.setCurrentTab(0);
+		}else{
+			currentTab = Titledao.querySelectedString(getActivity(), querySelected);
+			slidingTabLayout.setCurrentTab(currentTab);
+		}
+		
+	}
+
+	//查询
+	private void initHashMap() {
+		HashMap<String,Object> hashMap = Titledao.queryTitleDao(getActivity());
+		if(hashMap.size() != 0){
+			titles=null;
+			titles=new String[hashMap.size()];
+			for(int i=0;i<hashMap.size();i++){
+				String hashValue= (String) hashMap.get(""+i);
+				titles[i]=hashValue;
+			}
+		}
+	}
+
+	private void initViewPop() {
+		DisPlayUtils disPlayUtils = new DisPlayUtils(getActivity());
+		int windowsHight = disPlayUtils.getWindowsHight();
+		View viewchannel = View.inflate(getActivity(), R.layout.item_gridview,null);
+		DragGridView mGridView = (DragGridView) viewchannel.findViewById(R.id.drag_GridView);
+		new GridViewTools(titles, viewchannel,mGridView, getActivity(), ivAddChannel, slidingTabLayout,windowsHight);
+		GridViewTools.setRefreshTopTitle(new RefreshTopTitle() {
+			private Intent intent;
+
+			public void refresh() {
+				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.translate_in, R.anim.translate_out);
+				getActivity().finish();
+			}
+
+			public void AddClick() {
+				currentTab = slidingTabLayout.getCurrentTab();
+				querySelected = Titledao.querySelectedId(getActivity(), currentTab);
+				intent = new Intent(getActivity(),MainActivity.class);
+			    Bundle bundle=new Bundle();
+			    bundle.putString("querySelected", querySelected);
+			    intent.putExtras(bundle);
+			}
+		});
+	}
+	
+	public interface destoryPop{
+		void ClosePop();
+	}
+	static destoryPop mPop;
+
+	private TabFragmentAdapter tabFragmentAdapter;
+
+	private ViewPager viewPager;
+
+	public static void setmPop(destoryPop mPop1) {
+		mPop = mPop1;
+	}
+	public static destoryPop getmPop() {
+		return mPop;
+	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if(mPop != null){
+			mPop.ClosePop();
+		}
+	}
+
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wx="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/ll_slide_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="?attr/mainBackgroundColor"
+        android:orientation="horizontal" >
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/flyco_layout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:background="?attr/mainBackgroundColor"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            wx:tl_indicator_color="?attr/topIndicator"
+            wx:tl_indicator_margin_left="2dp"
+            wx:tl_indicator_margin_right="2dp"
+            wx:tl_indicator_style="BLOCK"
+            wx:tl_tab_padding="14dp"
+            wx:tl_textSelectColor="?attr/bottomTextColor"
+            wx:tl_textUnselectColor="?attr/bottomTextColordefault" />
+
+        <ImageView
+            android:id="@+id/iv_add_channel"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" 
+            android:src="@drawable/icon_add_channel"/>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_fly"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

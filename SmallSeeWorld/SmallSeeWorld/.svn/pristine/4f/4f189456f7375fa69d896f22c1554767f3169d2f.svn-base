@@ -1,0 +1,14 @@
+package com.wx.seeworld.CacheResource;
+
+import android.widget.ImageView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+public class ImageLoaderJar {
+
+	public static void getImgFromNet(final String imgUrl, ImageView imageView){
+		ImageLoader imageLoader=ImageLoader.getInstance();
+		imageLoader.displayImage(imgUrl,imageView);
+	}
+	
+}

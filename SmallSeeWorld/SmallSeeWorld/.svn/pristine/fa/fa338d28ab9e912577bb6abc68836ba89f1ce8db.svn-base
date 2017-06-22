@@ -1,0 +1,208 @@
+package com.wx.seeworld.Tools;
+
+import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.MediaPlayer.OnPreparedListener;
+import io.vov.vitamio.Vitamio;
+import io.vov.vitamio.utils.StringUtils;
+import io.vov.vitamio.widget.MediaController;
+import io.vov.vitamio.widget.VideoView;
+
+import java.io.IOException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.wx.seeworld.R;
+import com.wx.seeworld.RecyclerView.RecyclerVideoAdapder;
+import com.wx.seeworld.Utils.JudgmentIsNetUtils;
+import com.wx.seeworld.Utils.ToastUtils;
+
+public class ViewPlayerUI{
+
+	private static VideoView mVideoView;
+	private static Context mContext;
+	private static boolean isPlayer;
+	private static String html;
+	private static RelativeLayout progressLoading;
+	private static ImageView mIvPlayer;
+	private static ImageView mIvPicture;
+	private static int AGAINREQUEST=0;
+	
+	private static LinearLayout llVideoBottom;
+	private static ImageView ivVideoPlayer;
+	private static TextView tvCurrentTime;
+	private static TextView tvSumTime;
+	private static ImageView ivVideoFull;
+	private static SeekBar seekBar;
+	private static boolean idDestroy;
+	
+	protected static final int PROGRESS = 0;
+	
+	public static void Player(VideoView videoView,Context context,String Html,RelativeLayout progressloading
+			,ImageView ivPlayer,ImageView ivPicture,LinearLayout llvideoBottom,ImageView ivvideoPlayer,
+			TextView tvcurrentTime,SeekBar seekbar,TextView tvsumTime,ImageView ivvideoFull) {
+		mVideoView = videoView;
+		mContext = context;
+		html = Html;
+		progressLoading=progressloading;
+		mIvPlayer=ivPlayer;
+		mIvPicture=ivPicture;
+		
+		llVideoBottom=llvideoBottom;
+		ivVideoPlayer=ivvideoPlayer;
+		tvCurrentTime=tvcurrentTime;
+		seekBar=seekbar;
+		tvSumTime=tvsumTime;
+		ivVideoFull=ivvideoFull;
+		
+		getVideoData();
+	}
+
+	// 初始化数据
+	private static void initData(String videoUrl) {
+		
+		idDestroy=false;
+		initListener();
+		
+		mVideoView.setVideoPath(videoUrl);
+		mVideoView.setOnPreparedListener(new OnPreparedListener() {
+			@Override
+			public void onPrepared(MediaPlayer mp) {
+				mVideoView.start();
+				mVideoView.setMediaController(new MediaController(mContext)); // 自带的
+				isPlayer = true;
+				progressLoading.setVisibility(View.INVISIBLE);
+				llVideoBottom.setVisibility(View.VISIBLE);
+				
+				String sumTime=StringUtils.generateTime(mVideoView.getDuration());
+				tvSumTime.setText(sumTime);
+				seekBar.setMax((int) mVideoView.getDuration());
+				handler.sendEmptyMessage(PROGRESS);
+			}
+		});
+
+	}
+	
+	//handler
+	private static Handler handler=new Handler(){
+
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case PROGRESS:
+				long currentTime = mVideoView.getCurrentPosition();
+				String CurrentTime = StringUtils.generateTime(currentTime);
+				tvCurrentTime.setText(CurrentTime);
+				seekBar.setProgress((int) currentTime);
+				if(mVideoView.isPlaying()){
+					ivVideoPlayer.setImageResource(R.drawable.video_start_player);
+				}else{
+					ivVideoPlayer.setImageResource(R.drawable.video_pause_player);
+				}
+				if(!idDestroy){
+					handler.removeMessages(PROGRESS);
+					handler.sendEmptyMessageDelayed(PROGRESS, 1000);
+				}
+				break;
+
+			default:
+				break;
+			}
+		};
+	};
+
+	//设置监听
+	private static void initListener() {
+		ivVideoPlayer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(isPlayer){
+					ivVideoPlayer.setImageResource(R.drawable.video_pause_player);
+					mVideoView.pause();
+				}else{
+					ivVideoPlayer.setImageResource(R.drawable.video_start_player);
+					mVideoView.start();
+				}
+				isPlayer=!isPlayer;
+			}
+		});
+	}
+
+	// 初始化
+	private static void initOrignal(Context context) {
+		Vitamio.isInitialized(context);
+	}
+
+	// 停止播放
+	public static void StopPlayer() {
+		if (isPlayer) {
+			mVideoView.stopPlayback();
+			isPlayer = false;
+			idDestroy=true;
+		}
+	}
+	
+	/*-----------------------------videoUrl----------------------------------------*/
+	private static void getVideoData() {
+		int networkAvailable = JudgmentIsNetUtils.isNetworkAvailable(mContext);
+		if (networkAvailable == JudgmentIsNetUtils.NOCONNECT) {
+			ToastUtils.makeText(mContext, "未连接网络");
+			return;
+		}
+		if (html == null)
+			return;
+		new AsyncTask<String, Void, Document>() {
+			@Override
+			protected Document doInBackground(String... params) {
+				String html = params[0];
+				try {
+					Document document = Jsoup.connect(html).timeout(10000)
+							.data("query", "Java").userAgent("Mozilla") // 证明是电脑
+							.cookie("auth", "token").get();
+					return document;
+				} catch (IOException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+			@Override
+			protected void onPostExecute(Document document) {
+				super.onPostExecute(document);
+				if (document == null) {
+					if( AGAINREQUEST==1){
+						AGAINREQUEST=0;
+						Toast.makeText(mContext, "服务器错误或网络不稳定", Toast.LENGTH_SHORT).show();
+						RecyclerVideoAdapder.currentPlayer=-1;
+						mIvPicture.setVisibility(View.VISIBLE);
+						mIvPlayer.setVisibility(View.VISIBLE);
+						progressLoading.setVisibility(View.INVISIBLE);
+						mVideoView.setVisibility(View.INVISIBLE);
+						return;
+					}else{
+						++AGAINREQUEST;
+						getVideoData();//请求两次
+					}
+				}
+				String videoUrl = document.getElementById("detailVideo").attr("data-video");
+				startPlayerInit(videoUrl);
+			}
+		}.execute(html);
+	}
+	private static void startPlayerInit(String videoUrl) {
+		initOrignal(mContext);
+		initData(videoUrl);
+	}
+	/*---------------------------------------------------------------------*/
+
+}

@@ -1,0 +1,123 @@
+package com.wx.seeworld.Activity;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.support.v4.util.LruCache;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageLoader.ImageCache;
+import com.android.volley.toolbox.ImageLoader.ImageListener;
+import com.android.volley.toolbox.Volley;
+import com.wx.seeworld.R;
+import com.wx.seeworld.NetAddress.NetAConstants;
+import com.wx.seeworld.Utils.EncryptionUtils;
+import com.wx.seeworld.Utils.SharedPreUtils;
+import com.wx.seeworld.Utils.TimerUtils;
+
+public class SplashActivity extends Activity {
+
+	private ImageView imgAdvertising;
+	private final String url = NetAConstants.Advertising_URL;
+	private RequestQueue queue;
+	private LruCache<String, Bitmap> lruCache;
+	private TextView tvAdTime;
+	private String guide;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_splash);
+		
+		initView();
+		initRequest();
+	}
+
+	private void initView() {
+		
+		guide = SharedPreUtils.getSharePref(SplashActivity.this, "config_guide", "start");
+		
+		imgAdvertising = (ImageView) findViewById(R.id.iv_advertising);
+		tvAdTime = (TextView) findViewById(R.id.advertising_tv);
+		
+		tvAdTime.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				TimerUtils.stopTimer();
+				IntentJump();
+			}
+		});
+	}
+
+	private void initRequest() {
+		queue = Volley.newRequestQueue(this);
+		lruCache = new LruCache<String, Bitmap>(1024 * 500) {
+			@Override
+			protected int sizeOf(String key, Bitmap value) {
+				return value.getRowBytes() * value.getHeight();
+			}
+		};
+		ImageLoader imageLoader = new ImageLoader(queue, new MyImageCache());
+		ImageListener listener = ImageLoader.getImageListener(imgAdvertising,
+				R.drawable.icon_advertising, R.drawable.icon_advertising);
+		
+		setTimer();
+		
+		if(guide.equals("start"))
+			TimerUtils.JumpAdvertising();
+		
+		imageLoader.get(url, listener);
+	}
+
+
+	private void setTimer() {
+		
+		TimerUtils.setmOnTimerListener(new TimerUtils.OnTimerListener() {
+			public void end() {
+				IntentJump();
+			}
+		});
+		
+		TimerUtils.setMyTimer(4, tvAdTime, tvAdTime.getText().toString());
+	}
+
+
+	private void IntentJump() {
+		String guide = SharedPreUtils.getSharePref(SplashActivity.this, "config_guide", "start");
+		if(guide.equals("start")){
+			Intent intent=new Intent(SplashActivity.this,GuideActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.translate_in, R.anim.scale_translate_out);
+		}else if(guide.equals(EncryptionUtils.setEncryptionMD5("end"))){
+			Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.translate_in, R.anim.scale_translate_out);
+		}
+		
+	}
+
+
+	private class MyImageCache implements ImageCache {
+		public Bitmap getBitmap(String key) {
+			return lruCache.get(key);
+		}
+
+		public void putBitmap(String key, Bitmap bitmap) {
+			lruCache.put(key, bitmap);
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		queue.stop();
+		TimerUtils.stopTimer();
+		SplashActivity.this.finish();
+	}
+
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/mainBackgroundColor"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/ll_layout_channel"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:textColor="?attr/bottomTextColor"
+            android:textSize="16sp"
+            android:text="@string/selected_channel_text" />
+
+        <ImageView
+            android:id="@+id/iv_gridview_click"
+            android:visibility="invisible"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/icon_add_channel" />
+    </LinearLayout>
+
+    <com.example.gridviewa.DragGridView
+        android:id="@+id/drag_GridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@android:color/transparent"
+        android:gravity="center"
+        android:horizontalSpacing="6dip"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="4"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" >
+    </com.example.gridviewa.DragGridView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textSize="16sp"
+        android:textColor="?attr/bottomTextColor"
+        android:text="@string/add_channel_text" />
+
+</LinearLayout>

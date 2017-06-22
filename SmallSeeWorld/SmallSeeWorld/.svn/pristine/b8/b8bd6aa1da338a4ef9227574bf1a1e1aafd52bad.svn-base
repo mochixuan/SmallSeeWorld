@@ -1,0 +1,68 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    
+    <!-- ***********************************My************************************************* -->
+    
+    <!-- 默认 -->  
+    <style name="MyThemeDefault" parent="AppBaseTheme">  
+        <item name="mainBackgroundColor">#f5fffa</item> 
+        <item name="mainTextColor">#000000</item>
+        <item name="TopTextColor">#0bfbf8</item>
+        <item name="topIndicator">#f0f0f0</item>
+        <item name="bottomTextColor">#0bfbf8</item>
+        <item name="bottomDrawablenews">@drawable/bottom_news_day</item>
+        <item name="bottomDrawablevideo">@drawable/bottom_video_day</item>
+        <item name="bottomDrawabletopic">@drawable/bottom_topic_day</item>
+        <item name="bottomDrawableuser">@drawable/bottom_user_day</item>
+        <item name="bottomTextColordefault">#666666</item>
+        
+         <item name="cardbackground">#f5f5f5</item>
+         <item name="cardTitleTextColor">#5E5E5E</item>
+         <item name="cardTextBottonColor">#88666666</item>
+         
+          <item name="menu_bg">@drawable/menu_day_bg</item>
+          <item name="loading_bg">#f5f5f5</item>
+    </style>  
+  
+    <!-- 夜间 -->  
+    <style name="MyThemeNight" parent="AppBaseTheme">  
+        <item name="mainBackgroundColor">#cccc99</item>  
+        <item name="mainTextColor">#99cc66</item>  
+        <item name="TopTextColor">#99CC66</item>
+        
+        <item name="topIndicator">#CCCCCC</item>
+        <item name="bottomTextColor">#99CC66</item>
+        <item name="bottomDrawablenews">@drawable/bottom_news_night</item>
+        <item name="bottomDrawablevideo">@drawable/bottom_video_night</item>
+        <item name="bottomDrawabletopic">@drawable/bottom_topic_night</item>
+        <item name="bottomDrawableuser">@drawable/bottom_user_night</item>
+        <item name="bottomTextColordefault">#666666</item>
+        
+        <item name="cardbackground">#aacccc99</item>
+        <item name="cardTitleTextColor">#aa99cc66</item>
+        <item name="cardTextBottonColor">#8899cc66</item>
+        
+        <item name="menu_bg">@drawable/menu_night_bg</item>
+        <item name="loading_bg">#666666</item>
+    </style>
+    
+    <!-- ************************************************************************************ -->
+    
+
+</resources>

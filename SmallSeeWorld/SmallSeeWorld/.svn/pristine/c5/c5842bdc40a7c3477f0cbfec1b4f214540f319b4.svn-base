@@ -1,0 +1,12 @@
+package com.wx.seeworld.NetAddress;
+
+public class NetAConstants {
+	
+	//172.27.35.4
+	//10.0.3.2
+	public static final String SERVER_URL = "http://192.168.23.5:8080/zhbj";//tomcat本地
+	//public static final String SERVER_URL ="http://1.dmjx.applinzi.com/zhbj";//sina云服务器
+	public static final String CATEGORIES_URL = SERVER_URL + "/categories.json";// 获取分类信息的接口
+	public static final String Advertising_URL=SERVER_URL+"/adversting/icon_advertising2.png";
+	
+}

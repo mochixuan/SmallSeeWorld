@@ -1,0 +1,171 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_user_second"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/ll_three_number"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="?attr/news_bg"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/ll_user_number1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/menu_bg_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_user_number1"
+                style="@style/TextStyle"
+                android:text="@string/user_text_number" />
+
+            <TextView
+                android:id="@+id/tv_user_read"
+                style="@style/TextStyle"
+                android:layout_marginTop="4dp"
+                android:text="@string/user_text_read" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#66666666" />
+
+        <LinearLayout
+            android:id="@+id/ll_user_number2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/menu_bg_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_user_number2"
+                style="@style/TextStyle"
+                android:text="@string/user_text_number" />
+
+            <TextView
+                android:id="@+id/tv_user_collect"
+                style="@style/TextStyle"
+                android:layout_marginTop="4dp"
+                android:text="@string/user_text_collect" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#66666666" />
+
+        <LinearLayout
+            android:id="@+id/ll_user_number3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/menu_bg_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_user_number3"
+                style="@style/TextStyle"
+                android:text="@string/user_text_number" />
+
+            <TextView
+                android:id="@+id/tv_user_comment"
+                style="@style/TextStyle"
+                android:layout_marginTop="4dp"
+                android:text="@string/user_text_comment" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_user_message"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/news_bg"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/menu_bg_selector" >
+
+            <ImageView
+                android:id="@+id/iv_user_message"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                 android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:src="?attr/user_message" />
+
+            <TextView
+                style="@style/TextStyle"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/iv_user_message"
+                 android:layout_centerVertical="true"
+                android:text="@string/user_text_mymessage" />
+
+            <TextView
+                android:id="@+id/tv_user_message_number"
+                style="@style/TextStyle"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                 android:layout_centerVertical="true"
+                android:text="@string/user_text_message_number" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_user_night_mode"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/news_bg" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/menu_bg_selector" >
+
+            <ImageView
+                android:id="@+id/iv_user_nigh"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:src="?attr/night_mode_image" />
+
+            <TextView
+                style="@style/TextStyle"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/iv_user_nigh"
+                android:text="@string/user_text_night_mode" />
+
+            <ImageView
+                android:id="@+id/iv_user_night_mode"
+                android:layout_width="46dp"
+                android:layout_height="26dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:src="?attr/night_mode_button" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

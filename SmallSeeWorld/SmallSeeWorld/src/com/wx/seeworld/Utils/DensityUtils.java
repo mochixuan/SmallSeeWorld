@@ -1,0 +1,22 @@
+package com.wx.seeworld.Utils;
+
+import android.content.Context;
+
+public class DensityUtils {
+	
+	//公式 dp=px/density
+	
+	public static int dpChangepx(Context context,float dp){
+		float density=context.getResources().getDisplayMetrics().density;//获取屏幕密度
+		int px=(int) (dp*density+0.5f);			//四舍五入 4.4+0.5=4.5 4.9+0.5=5.1
+		return px;
+		
+	}
+	
+	public static float pxChangedp(Context context,int px){
+		float density=context.getResources().getDisplayMetrics().density;//获取屏幕密度
+		float dp=((float)px)/density;		//四舍五入 4.4+0.5=4.5 4.9+0.5=5.1
+		return dp;
+	}
+	
+}

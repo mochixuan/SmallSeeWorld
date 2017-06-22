@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:id="@+id/card_view_news"
+    android:layout_marginBottom="-2dp"
+    android:layout_marginTop="-2dp"
+    android:foreground="?attr/selectableItemBackground"
+    cardview:cardBackgroundColor="?attr/cardbackground"
+    cardview:cardCornerRadius="2dp"
+    cardview:cardElevation="0dp"
+    cardview:cardPreventCornerOverlap="true"
+    cardview:cardUseCompatPadding="true" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/tv_recycler_title"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="3dp"
+            android:maxLines="3"
+            android:textColor="?attr/cardTitleTextColor"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="6dp"
+            android:gravity="center_vertical" >
+
+            <RelativeLayout
+                android:layout_width="100dp"
+                android:layout_height="72dp" >
+
+                <ImageView
+                    android:id="@+id/iv_recycler_image"
+                    android:layout_width="100dp"
+                    android:layout_height="72dp"
+                    android:scaleType="fitXY" />
+
+                <View
+                    android:id="@+id/view_card_mask"
+                    android:background="?attr/image_mask"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_recycler_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="3dp"
+            android:textColor="?attr/cardTextBottonColor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_recycler_origin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/tv_recycler_date"
+            android:textColor="?attr/cardTextBottonColor"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

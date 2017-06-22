@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry exported="true" kind="lib" path="libs/volly-1.0.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/systembartint-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/dragGridView.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/gson-2.3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/android-support-v7-recyclerview.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/android-support-v4.jar" sourcepath="D:/android/adt-bundle-windows-x86_64-20140702/sdk/extras/android/support/v4/src"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

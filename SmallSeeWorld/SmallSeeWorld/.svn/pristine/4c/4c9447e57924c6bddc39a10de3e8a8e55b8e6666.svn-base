@@ -1,0 +1,36 @@
+package com.wx.seeworld.Activity;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.webkit.WebView;
+
+import com.wx.seeworld.R;
+
+public class NewsDetailActivity extends Activity {
+
+	private String detailsUrl;
+	private WebView webView;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_newsdetails);
+
+		detailsUrl = getIntent().getStringExtra("detailsUrl");
+
+		initView();
+		initData();
+	}
+
+	private void initView() {
+		webView = (WebView) findViewById(R.id.web_news_view);
+	}
+
+	private void initData() {
+		webView.getSettings().setLoadWithOverviewMode(true);
+		webView.getSettings().setUseWideViewPort(true);
+		
+		webView.loadUrl(detailsUrl);
+	}
+
+}

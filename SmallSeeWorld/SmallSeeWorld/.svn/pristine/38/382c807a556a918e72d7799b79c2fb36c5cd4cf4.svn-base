@@ -1,0 +1,164 @@
+package com.wx.seeworld.Activity;
+
+import android.content.res.TypedArray;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.wx.seeworld.R;
+import com.wx.seeworld.Utils.SystemBarTintUtils;
+
+public class MainActivity extends FragmentActivity implements OnClickListener {
+
+	private FrameLayout fragmentMain;
+	private FragmentManager fragmentManager;
+
+	private LinearLayout llBottomNews;
+	private LinearLayout llBottomVideo;
+	private LinearLayout llBottomTopic;
+	private LinearLayout llBottomUser;
+
+	private ImageView bottomIvNews;
+	private ImageView bottomIvVideo;
+	private ImageView bottomIvTopic;
+	private ImageView bottomIvUser;
+	private TextView bottomTvNews;
+	private TextView bottomTvVideo;
+	private TextView bottomTvTopic;
+	private TextView bottomTvUser;
+	private int bottomTextColor;
+	private int bottomTextColordefault;
+	private int bottomDrawablenews;
+	private int bottomDrawablevideo;
+	private int bottomDrawabletopic;
+	private int bottomDrawableuser;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		initView();
+		initData();
+
+		initSystemBarTint();
+	}
+
+	private void initView() {
+		fragmentMain = (FrameLayout) findViewById(R.id.framelayout_main);
+
+		llBottomNews = (LinearLayout) findViewById(R.id.ll_radio_button_news);
+		llBottomVideo = (LinearLayout) findViewById(R.id.ll_radio_button_video);
+		llBottomTopic = (LinearLayout) findViewById(R.id.ll_radio_button_topic);
+		llBottomUser = (LinearLayout) findViewById(R.id.ll_radio_button_user);
+
+		bottomIvNews = (ImageView) findViewById(R.id.bottom_iv_news);
+		bottomIvVideo = (ImageView) findViewById(R.id.bottom_iv_video);
+		bottomIvTopic = (ImageView) findViewById(R.id.bottom_iv_topic);
+		bottomIvUser = (ImageView) findViewById(R.id.bottom_iv_user);
+
+		bottomTvNews = (TextView) findViewById(R.id.bottom_tv_news);
+		bottomTvVideo = (TextView) findViewById(R.id.bottom_tv_video);
+		bottomTvTopic = (TextView) findViewById(R.id.bottom_tv_topic);
+		bottomTvUser = (TextView) findViewById(R.id.bottom_tv_user);
+
+	}
+
+	private void initData() {
+		llBottomNews.setOnClickListener(this);
+		llBottomVideo.setOnClickListener(this);
+		llBottomTopic.setOnClickListener(this);
+		llBottomUser.setOnClickListener(this);
+
+		initBottomStyle();
+		restoreStyleDrawable(R.id.bottom_iv_news, llBottomNews);
+
+		fragmentManager = getSupportFragmentManager();
+		FragmentTransaction beginTransaction = fragmentManager
+				.beginTransaction();
+	}
+
+	private void initBottomStyle() {
+		TypedArray typedArray = obtainStyledAttributes(null, R.styleable.bottom);
+		bottomTextColor = typedArray.getColor(
+				R.styleable.bottom_bottomTextColor, 0xff0000);
+		bottomTextColordefault = typedArray.getColor(
+				R.styleable.bottom_bottomTextColordefault, 0xff0000);
+
+		bottomDrawablenews = typedArray.getResourceId(
+				R.styleable.bottom_bottomDrawablenews, 0);
+		bottomDrawablevideo = typedArray.getResourceId(
+				R.styleable.bottom_bottomDrawablevideo, 0);
+		bottomDrawabletopic = typedArray.getResourceId(
+				R.styleable.bottom_bottomDrawabletopic, 0);
+		bottomDrawableuser = typedArray.getResourceId(
+				R.styleable.bottom_bottomDrawableuser, 0);
+		typedArray.recycle(); // 必须回收
+	}
+
+	public void onClick(View v) {
+		restoreDefaultDrawable();
+		switch (v.getId()) {
+		case R.id.ll_radio_button_news:
+			restoreStyleDrawable(R.id.bottom_iv_news, llBottomNews);
+			break;
+		case R.id.ll_radio_button_video:
+			restoreStyleDrawable(R.id.bottom_iv_video, llBottomVideo);
+			break;
+		case R.id.ll_radio_button_topic:
+			restoreStyleDrawable(R.id.bottom_iv_topic, llBottomTopic);
+			break;
+		case R.id.ll_radio_button_user:
+			restoreStyleDrawable(R.id.bottom_iv_user, llBottomUser);
+			break;
+		}
+	}
+
+	// 设置颜色
+	private void restoreStyleDrawable(int imgId, LinearLayout llBottom) {
+		TextView textView = (TextView) llBottom.getChildAt(1);
+		textView.setTextColor(bottomTextColor);
+		switch (imgId) {
+		case R.id.bottom_iv_news:
+			bottomIvNews.setImageResource(bottomDrawablenews);
+			break;
+		case R.id.bottom_iv_video:
+			bottomIvVideo.setImageResource(bottomDrawablevideo);
+			break;
+		case R.id.bottom_iv_topic:
+			bottomIvTopic.setImageResource(bottomDrawabletopic);
+			break;
+		case R.id.bottom_iv_user:
+			bottomIvUser.setImageResource(bottomDrawableuser);
+			break;
+		}
+	}
+
+	// 修改为默认
+	private void restoreDefaultDrawable() {
+		bottomIvNews.setImageResource(R.drawable.bottom_news_default);
+		bottomIvVideo.setImageResource(R.drawable.bottom_video_default);
+		bottomIvTopic.setImageResource(R.drawable.bottom_topic_default);
+		bottomIvUser.setImageResource(R.drawable.bottom_user_default);
+
+		bottomTvNews.setTextColor(bottomTextColordefault);
+		bottomTvTopic.setTextColor(bottomTextColordefault);
+		bottomTvVideo.setTextColor(bottomTextColordefault);
+		bottomTvUser.setTextColor(bottomTextColordefault);
+	}
+
+	@SuppressWarnings("static-access")
+	private void initSystemBarTint() {
+		SystemBarTintUtils mBarTintUtils=new SystemBarTintUtils(this);
+		mBarTintUtils.setNavigationBarTint(bottomTextColor);
+		mBarTintUtils.setStatusBarTint(bottomTextColor);
+	}
+
+}

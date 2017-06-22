@@ -1,0 +1,106 @@
+package com.wx.seeworld.Activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+
+import com.wx.seeworld.R;
+
+public class GuideActivity extends Activity {
+
+	private ViewPager viewPager;
+	private List<ImageView> mImgLists;
+
+	private int[] ImgGuideId = new int[] { R.drawable.launch_0,
+			R.drawable.launch_1, R.drawable.launch_2 };
+	private LinearLayout linerLayout;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_guide);
+		initView();
+		initData();
+	}
+
+	private void initView() {
+		viewPager = (ViewPager) findViewById(R.id.guide_viewpager);
+		mImgLists=new ArrayList<ImageView>();
+		linerLayout = (LinearLayout) findViewById(R.id.guide_linear);
+	}
+
+	@SuppressWarnings("deprecation")
+	private void initData() {
+		
+		for(int i=0;i<ImgGuideId.length;i++){
+			ImageView imageView = new ImageView(GuideActivity.this);
+			imageView.setImageResource(ImgGuideId[i]);
+			imageView.setScaleType(ScaleType.CENTER_CROP);
+			mImgLists.add(imageView);
+		}
+		
+		//设置圆点 绿点默认是压在默认点的最左边上
+		for(int i=0;i<ImgGuideId.length;i++){
+			View point=new View(this);
+			point.setBackgroundResource(R.drawable.share_point_white);
+			LayoutParams params = new LinearLayout.LayoutParams(15,15);
+			if(i != 0){
+				params.leftMargin=20;
+			}
+			point.setLayoutParams(params);
+			linerLayout.addView(point);
+		}
+		
+		MyPagerAdapter adapter=new MyPagerAdapter();
+		viewPager.setAdapter(adapter);
+		
+		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
+			public void onPageSelected(int arg0) {
+				
+			}
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				
+			}
+			public void onPageScrollStateChanged(int arg0) {
+				
+			}
+		});
+		
+	}
+
+	private class MyPagerAdapter extends PagerAdapter {
+		@Override
+		public int getCount() {
+			return mImgLists.size();
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			return arg0 == arg1;
+		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			container.removeView(mImgLists.get(position));
+		}
+
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			container.addView(mImgLists.get(position));
+			return mImgLists.get(position);
+		}
+
+	}
+	
+}

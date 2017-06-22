@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cardview_initial_background">#f0f0f0</color>
+    
+    <color name="refresh_color_blue_deep">#24DE97</color>
+    <color name="refresh_color_blue_shallow">#79E8D0</color>
+    <color name="refresh_color_green_deep">#066FFF</color>
+    <color name="refresh_color_green_shallow">#CCFFFF</color>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wx="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:id="@+id/ll_topic"
+    android:background="?attr/second_background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rl_topic_top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="?attr/user_bg1" >
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/flyco_layout_topic"
+            android:layout_width="200dp"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            wx:tl_textBold="true"
+            wx:tl_indicator_height="3dp"
+             wx:tl_indicator_width="15dp"
+            wx:tl_indicator_color="?attr/textcolorname"
+            wx:tl_textSelectColor="?attr/textcolorname"
+            wx:tl_textUnselectColor="?attr/bottomTextColordefault" />
+
+        <com.wx.seeworld.View.CircleImageView
+            android:id="@+id/circlr_view_topic"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/user_default"
+            wx:border_color="?attr/textcolorname"
+            wx:border_width="1dp" />
+        
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_topic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

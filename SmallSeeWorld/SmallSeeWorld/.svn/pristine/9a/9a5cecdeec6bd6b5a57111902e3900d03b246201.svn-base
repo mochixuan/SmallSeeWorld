@@ -1,0 +1,164 @@
+package com.wx.seeworld.RecyclerView;
+
+import io.vov.vitamio.widget.VideoView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+import com.wx.seeworld.R;
+import com.wx.seeworld.Bean.VideoDemo;
+import com.wx.seeworld.CacheResource.ImageLoaderJar;
+import com.wx.seeworld.Tools.ViewPlayerUI;
+import com.wx.seeworld.View.CircleImageView;
+
+public class RecyclerVideoAdapder extends RecyclerView.Adapter<ViewHolder> {
+
+	private List<VideoDemo> videoLists = new ArrayList<VideoDemo>();
+	private LayoutInflater mInflater;
+	public static int currentPlayer = -1;
+	private Context context;
+	private boolean isRefresh;
+
+	public RecyclerVideoAdapder(Context context) {
+		mInflater = LayoutInflater.from(context);
+		this.context = context;
+	}
+
+	// 单击监听
+	private OnItemVideoClickListener mItemVideoClickListener;
+	public interface OnItemVideoClickListener {
+		void onItemClick(View view, int position);
+	}
+	public void setItemVideoClickListener(
+			OnItemVideoClickListener mItemVideoClickListener) {
+		this.mItemVideoClickListener = mItemVideoClickListener;
+	}
+
+	@Override
+	public int getItemCount() {
+		return videoLists.size();
+	}
+
+	@Override
+	public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+
+		final VideoHeaderHolder mHolder = ((VideoHeaderHolder) viewHolder);
+		
+		mHolder.ivPicture.setImageResource(R.drawable.default_image);
+
+		if (isRefresh) {
+			mHolder.ivPlayer.setVisibility(View.VISIBLE);
+			mHolder.ivPicture.setVisibility(View.VISIBLE);
+			mHolder.progressLoading.setVisibility(View.INVISIBLE);
+			mHolder.llVideoBottom.setVisibility(View.INVISIBLE);
+			mHolder.mVideoView.setVisibility(View.INVISIBLE);
+			isRefresh = false;
+		}
+		
+		if(currentPlayer != position){
+			mHolder.ivPlayer.setVisibility(View.VISIBLE);
+			mHolder.ivPicture.setVisibility(View.VISIBLE);
+			mHolder.progressLoading.setVisibility(View.INVISIBLE);
+			mHolder.llVideoBottom.setVisibility(View.INVISIBLE);
+			mHolder.mVideoView.setVisibility(View.INVISIBLE);
+		}else{
+			
+		}
+		
+		mHolder.tvTitle.setText(videoLists.get(position).getCaption());
+		mHolder.tvAutherName.setText("       "+ videoLists.get(position).getScreen_name());
+		ImageLoaderJar.getImgFromNetCircle(videoLists.get(position).getAvatar(), mHolder.ivAutherPicture);
+		ImageLoaderJar.getImgFromNet(videoLists.get(position).getCover_pic(),mHolder.ivPicture);
+
+		mHolder.ivPicture.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mItemVideoClickListener != null) {
+					mItemVideoClickListener.onItemClick(v, position);
+
+					mHolder.ivPlayer.setVisibility(View.INVISIBLE);
+					mHolder.ivPicture.setVisibility(View.INVISIBLE);
+					mHolder.progressLoading.setVisibility(View.VISIBLE);
+					mHolder.llVideoBottom.setVisibility(View.INVISIBLE);
+					mHolder.mVideoView.setVisibility(View.VISIBLE);
+
+					if (currentPlayer != -1) {
+						ViewPlayerUI.StopPlayer();
+						isRefresh = true;
+						notifyItemChanged(currentPlayer);
+					}
+					
+					ViewPlayerUI.Player(mHolder.mVideoView, context, videoLists.get(position).getUrl()
+							,mHolder.progressLoading,mHolder.ivPlayer,mHolder.ivPicture,mHolder.llVideoBottom
+							,mHolder.ivVideoPlayer,mHolder.tvCurrentTime,mHolder.seekBar,mHolder.tvSumTime,
+							mHolder.ivVideoFull);
+					currentPlayer = position;
+				}
+			}
+		});
+
+	}
+
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup viewGroup, final int position) {
+		View view = mInflater.inflate(R.layout.item_video, viewGroup, false);
+		VideoHeaderHolder viewHolder = new VideoHeaderHolder(view);
+		return viewHolder;
+	}
+
+	class VideoHeaderHolder extends ViewHolder {
+		
+		private TextView tvTitle;
+		private TextView tvAutherName;
+		private ImageView ivPicture;
+		private CircleImageView ivAutherPicture;
+		private VideoView mVideoView;
+		private RelativeLayout progressLoading;
+		private ImageView ivPlayer;
+		
+		private LinearLayout llVideoBottom;
+		private ImageView ivVideoPlayer;
+		private TextView tvCurrentTime;
+		private TextView tvSumTime;
+		private ImageView ivVideoFull;
+		private SeekBar seekBar;
+		
+		public VideoHeaderHolder(View view) {
+			super(view);
+			tvTitle = (TextView) view.findViewById(R.id.tv_video_title);
+			tvAutherName = (TextView) view.findViewById(R.id.tv_video_autherName);
+			ivAutherPicture = (CircleImageView) view.findViewById(R.id.iv_video_autherpicture);
+			//播放窗口
+			mVideoView = (VideoView) view.findViewById(R.id.video_view); // 视频
+			progressLoading = (RelativeLayout) view.findViewById(R.id.video_loading); //加载
+			ivPicture = (ImageView) view.findViewById(R.id.iv_video_picture); // 大图
+			ivPlayer = (ImageView) view.findViewById(R.id.iv_player);
+			//播放按钮组合
+			llVideoBottom = (LinearLayout) view.findViewById(R.id.ll_viedo_bottom);
+			ivVideoPlayer = (ImageView) view.findViewById(R.id.iv_video_player);
+			tvCurrentTime = (TextView) view.findViewById(R.id.tv_video_starttime);
+			seekBar = (SeekBar) view.findViewById(R.id.seek_bar_video);
+			tvSumTime = (TextView) view.findViewById(R.id.tv_video_sumtime);
+			ivVideoFull = (ImageView) view.findViewById(R.id.iv_video_full);
+		}
+	}
+
+	public void addData(List<VideoDemo> videoLists) {
+		this.videoLists.addAll(0, videoLists);
+		notifyItemRangeChanged(0, videoLists.size() - 1);
+	}
+	
+}

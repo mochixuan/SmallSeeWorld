@@ -1,0 +1,62 @@
+package com.wx.seeworld.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+public class Collectdao {
+
+	public static void addCollectDao(Context context, String newsUrl) {
+		CollectOpenHelper collectOpenHelper = new CollectOpenHelper(context,"collect.db", null, 1);
+		SQLiteDatabase database = collectOpenHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put("collectedUrl", newsUrl);
+		database.insert("collectNews", null, values);
+		values.clear();
+		database.close();
+	}
+
+
+	public static boolean querySelectedId(Context context, String newsUrl) {
+		CollectOpenHelper collectOpenHelper = new CollectOpenHelper(context,"collect.db", null, 1);
+		SQLiteDatabase database = collectOpenHelper.getWritableDatabase();
+		Cursor cursor = database.rawQuery("select * from collectNews where collectedUrl=?",new String[] {newsUrl });
+		boolean collected;
+		if (cursor.moveToNext()) {
+			collected=true;
+		} else {
+			collected =false;
+		}
+		cursor.close();
+		database.close();
+		return collected;
+	}
+	
+	public static List<String> querySelectedList(Context context) {
+		CollectOpenHelper collectOpenHelper = new CollectOpenHelper(context,"collect.db", null, 1);
+		SQLiteDatabase database = collectOpenHelper.getWritableDatabase();
+		Cursor cursor = database.query("collectNews", new String[]{"collectedUrl"}, null, null, null, null, null);
+		List<String> lists=new ArrayList<String>();
+		while (cursor.moveToNext()) {
+			String imgurl = cursor.getString(cursor.getColumnIndex("collectedUrl"));
+			lists.add(imgurl);
+		} 
+		cursor.close();
+		database.close();
+		return lists;
+	}
+	
+	
+	public static void deleteSelected(Context context,String newsUrl) {
+		CollectOpenHelper collectOpenHelper = new CollectOpenHelper(context,"collect.db", null, 1);
+		SQLiteDatabase database = collectOpenHelper.getWritableDatabase();
+		database.delete("collectNews", "collectedUrl=?", new String[]{newsUrl});
+		database.close();
+	}
+
+
+}

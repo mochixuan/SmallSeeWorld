@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_video"
+    android:layout_width="match_parent"
+    android:layout_height="280dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="5dp"
+    cardview:cardBackgroundColor="#20b2aa"
+    cardview:cardCornerRadius="3dp"
+    cardview:cardElevation="3dp"
+    cardview:cardPreventCornerOverlap="true"
+    cardview:cardUseCompatPadding="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_video_title"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="4dp"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="大家好"
+            android:textColor="?attr/cardTitleTextColor"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <include layout="@layout/item_video_player"/>
+            
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/tv_video_autherName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/shape_rectangle_video1"
+                    android:padding="4dp"
+                    android:text="        中国小当家"
+                    android:textColor="?attr/cardTitleTextColor"
+                    android:textSize="12sp" />
+
+                <com.wx.seeworld.View.CircleImageView
+                    android:id="@+id/iv_video_autherpicture"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_launcher"
+                    cardview:border_color="#66666666"
+                    cardview:border_width="1dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/video_share" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

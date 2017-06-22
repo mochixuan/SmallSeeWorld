@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="?attr/second_background"
+    android:layout_width="match_parent"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent" >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_topic_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_topic_discuss"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/cardtopicbackground"
+        android:orientation="horizontal"
+        android:padding="4dp" >
+
+        <EditText
+            android:id="@+id/ed_discuss"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="?attr/cardTitleTextColor"
+            android:background="@drawable/shape_rectangle_topic2"
+            android:padding="2dp" />
+
+        <TextView
+            android:id="@+id/tv_discuss_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="@string/sumbit_topic"
+            android:textColor="?attr/text_color_write"
+            android:textSize="16sp" />
+    </LinearLayout>
+   
+    <ImageView
+        android:id="@+id/iv_submit"
+        android:layout_width="60dp"
+        android:layout_height="60dp" 
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/btn_editer"
+        android:padding="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="18dp"
+        android:background="?attr/topic_submit_img"
+        />
+
+</RelativeLayout>

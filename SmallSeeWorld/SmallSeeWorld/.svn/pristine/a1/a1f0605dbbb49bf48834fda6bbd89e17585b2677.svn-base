@@ -1,0 +1,104 @@
+package com.wx.seeworld.Activity;
+
+import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.PopupWindow;
+
+import com.wx.seeworld.R;
+import com.wx.seeworld.Utils.AnimationUtils;
+import com.wx.seeworld.Utils.DensityUtils;
+import com.wx.seeworld.loading.MonIndicator;
+
+
+public class NewsDetailActivity extends Activity implements OnClickListener {
+
+	private String detailsUrl;
+	private WebView webView;
+	private LinearLayout llBackPage;
+	private LinearLayout llMenuSelect;
+	private PopupWindow popup;
+	private MonIndicator loadingMonIndicator;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_newsdetails);
+
+		detailsUrl = getIntent().getStringExtra("detailsUrl");
+
+		initView();
+		initData();
+	}
+
+	private void initView() {
+		webView = (WebView) findViewById(R.id.web_news_view);
+		llBackPage = (LinearLayout) findViewById(R.id.ll_back_page);
+		llMenuSelect = (LinearLayout) findViewById(R.id.ll_menu_select);
+		loadingMonIndicator = (MonIndicator) findViewById(R.id.loading_monindicator);
+		
+		llBackPage.setOnClickListener(this);
+		llMenuSelect.setOnClickListener(this);
+	}
+
+	private void initData() {
+		loadingMonIndicator.setColors(new int[]{0xFF66cccc, 0xFFccff99, 0xFFccffcc, 0xFF66cc99, 0xFF66cc66});
+		webView.setWebViewClient(new WebViewClient() {
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				if (url.equals(detailsUrl)) {
+					view.loadUrl(url);
+					return true;
+				} else {
+					return false;
+				}
+			}
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				loadingMonIndicator.setVisibility(View.GONE);
+			}
+			@Override
+			@Deprecated
+			public void onReceivedError(WebView view, int errorCode,
+					String description, String failingUrl) {
+				super.onReceivedError(view, errorCode, description, failingUrl);
+				view.loadUrl("file:///android_asset/error_day.html");
+			}
+
+			
+			
+		});
+
+		webView.loadUrl(detailsUrl);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.ll_back_page:
+			finish();		//事件都交给了popup自己处理了
+			break;
+		case R.id.ll_menu_select:
+			if(popup==null){
+				View view=View.inflate(NewsDetailActivity.this, R.layout.item_select_menu, null);
+				view.startAnimation(AnimationUtils.getAnimationIn());
+				popup = new PopupWindow(view,LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,true);//在前面设置
+				popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));// 设置在后面
+				popup.showAsDropDown(llMenuSelect, 0,DensityUtils.dpChangepx(NewsDetailActivity.this, -32)); // 像数为单位84
+			}else if(popup != null && !popup.isShowing()){
+				//有可能隐藏了
+				popup.showAsDropDown(llMenuSelect, 0,DensityUtils.dpChangepx(NewsDetailActivity.this, -32)); // 像数为单位84
+			}
+			break;
+		}
+	}
+
+}

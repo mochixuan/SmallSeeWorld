@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mon="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_details_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <WebView
+            android:id="@+id/web_news_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <View
+            android:id="@+id/view_mask"
+            android:focusable="false"
+            android:clickable="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" 
+            android:background="?attr/webview_mask"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <com.wx.seeworld.loading.MonIndicator
+            android:id="@+id/loading_monindicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="?attr/loading_bg"
+            mon:circleRadius="16dp"
+            mon:cycle="1500" />
+
+        <RelativeLayout
+            android:id="@+id/head_hide"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="?attr/mainBackgroundColor" >
+
+            <LinearLayout
+                android:id="@+id/ll_back_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:background="@drawable/menu_bg_selector"
+                android:clickable="true"
+                android:focusable="true" >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/back_previous" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_menu_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/menu_bg_selector"
+                android:clickable="true"
+                android:focusable="true" >
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/menu_select" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/footer_hide"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:background="?attr/mainBackgroundColor" >
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

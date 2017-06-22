@@ -1,0 +1,21 @@
+package com.wx.seeworld.Utils;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+public class SharedPreUtils {
+	
+	public static final String CONFIG="shareConfig";
+
+	public static void setSharePref(Context context,String key,String value){
+		SharedPreferences sp=context.getSharedPreferences(SharedPreUtils.CONFIG, context.MODE_PRIVATE);
+		sp.edit().putString(key, value).commit();
+	}
+	
+	public static String getSharePref(Context context,String key,String defValue){
+		SharedPreferences sp=context.getSharedPreferences(SharedPreUtils.CONFIG, context.MODE_PRIVATE);
+		String value = sp.getString(key, defValue);
+		return value;
+	}
+	
+}

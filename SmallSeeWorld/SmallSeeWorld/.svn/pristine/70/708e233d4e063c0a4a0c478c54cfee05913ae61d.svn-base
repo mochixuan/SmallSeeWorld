@@ -1,0 +1,89 @@
+package com.wx.seeworld.Fragment;
+
+import android.content.res.TypedArray;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.wx.seeworld.R;
+import com.wx.seeworld.RecyclerView.RecyclerVideoAdapder;
+import com.wx.seeworld.RecyclerView.RecyclerVideoAdapder.OnItemVideoClickListener;
+import com.wx.seeworld.RequestVideo.VideoUrl;
+import com.wx.seeworld.Utils.JudgmentIsNetUtils;
+import com.wx.seeworld.Utils.ToastUtils;
+
+public class FragmentVideo extends Fragment implements OnRefreshListener {
+	private RecyclerView mRecyclerView;
+	private SwipeRefreshLayout mRefreshLayout;
+	private RecyclerVideoAdapder videoAdapder;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_video, container, false);
+		initView(view);
+		initData();
+		return view;
+	}
+
+	private void initView(View view) {
+		mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_video);
+		mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_video);
+	}
+
+	private void initData() {
+		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
+				getActivity(), LinearLayoutManager.VERTICAL, false);
+		mRecyclerView.setLayoutManager(linearLayoutManager);
+		videoAdapder = new RecyclerVideoAdapder(getActivity());
+		mRecyclerView.setAdapter(videoAdapder);
+
+		// 点击监听
+		videoAdapder.setItemVideoClickListener(new OnItemVideoClickListener() {
+			@Override
+			public void onItemClick(View view, int position) {
+				VideoPlayerDealt(view, position);
+				//Toast.makeText(getActivity(), "单击：" + position,Toast.LENGTH_SHORT).show();
+			}
+		});
+		
+		// 设置刷新
+		mRefreshLayout.setColorSchemeResources(
+				R.color.refresh_color_blue_shallow,
+				R.color.refresh_color_blue_deep,
+				R.color.refresh_color_green_deep);
+		TypedArray typeTheme = getActivity().obtainStyledAttributes(null,
+				R.styleable.theme);
+		int backgroundColor = typeTheme.getColor(
+				R.styleable.theme_mainBackgroundColor, 0xffffffff);
+		mRefreshLayout.setProgressBackgroundColorSchemeColor(backgroundColor);
+		typeTheme.recycle();
+		mRefreshLayout.setOnRefreshListener(this);
+
+	}
+
+	@Override
+	public void onRefresh() {
+		mRefreshLayout.setRefreshing(true);
+		int networkAvailable = JudgmentIsNetUtils
+				.isNetworkAvailable(getActivity());
+		if (networkAvailable == JudgmentIsNetUtils.NOCONNECT) {
+			ToastUtils.makeText(getActivity(), "未连接网络");
+		}
+		VideoUrl videoUrl = new VideoUrl(getActivity(), "1", mRefreshLayout,
+				videoAdapder);
+		videoUrl.getVideoUrl();
+	}
+
+	// 处理播放视频
+	protected void VideoPlayerDealt(View view, int position) {
+
+	}
+
+}
